@@ -51,6 +51,8 @@ Install all dependencies to build swiften::
  * ./BuildTools/InstallSwiftDependencies.sh
  * ./scons Swiften -j<Number of threads>
 
+If you happen to have the ``libidn`` headers installed on your system (``libidn11-dev`` on Debian), SCons will not link the LibIDN under 3rdParty into libswiften.a, which in turn will cause the shmoose build to fail. To prevent that, add ``try_libidn=false libidn_bundled_enable=true`` to the build command.
+   
 Install dependencies to build Shmoose (example for Debian)::
 
  * sudo apt-get install zlib1g-dev libssl-dev libxml2-dev libstdc++-5-dev libqt5quick5 libqt5quickparticles5 libqt5quickwidgets5 libqt5qml5 libqt5network5 libqt5gui5 libqt5core5a qt5-default libglib2.0-dev libpthread-stubs0-dev
@@ -85,9 +87,9 @@ Fetch swift source::
 
 Install all dependencies to build swiften::
 
- * sb2 -t SailfishOS-armv7hl -m sdk-install -R zypper in openssl-devel libiphb-devel
+ * sb2 -t SailfishOS-armv7hl -m sdk-install -R zypper in openssl-devel libiphb-devel libxml2-devel
 
-Patch SConstruct file to do a PIC build of the library archive
+Patch the BuildTools/SCons/SConstruct file to do a PIC build of the library archive
 
 Add::
 
@@ -99,7 +101,9 @@ Build Swiften Library::
 
  * sb2 -t SailfishOS-armv7hl /bin/bash ./scons Swiften
 
-Get Smooshe source code::
+Note that the MerSDK VM's default RAM setting of 512MB is not sufficient to build Swiften. Increasing it to 4 GB should do the trick.
+
+Get Shmoose source code::
 
  * cd ..
  * git clone https://github.com/geobra/harbour-shmoose
